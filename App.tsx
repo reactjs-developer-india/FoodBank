@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Text } from "react-native";
 import DonateOrVolunteer from "./features/DonateOrVolunteer";
+import PostcodeAndName from "./features/PostcodeAndName";
 
 export default function App() {
   const [page, setPage] = useState("DonateOrVolunteer");
@@ -8,7 +8,7 @@ export default function App() {
   return (
     <>
       {page === "DonateOrVolunteer" && <DonateOrVolunteer setPage={setPage} />}
-      {page === "DonateMain" && <Text>Hi</Text>}
+      {page === "DonateMain" && <PostcodeAndName setPage={setPage} />}
     </>
   );
 }
