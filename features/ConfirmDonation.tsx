@@ -3,7 +3,10 @@ import { BalooThambi_Regular400 } from "@expo-google-fonts/baloo-thambi";
 import { Cairo_700Bold } from "@expo-google-fonts/cairo";
 import styled from "styled-components/native";
 import React from "react";
-import { StyleSheet, Text, ImageBackground } from "react-native";
+import { StyleSheet, Text, ImageBackground, View } from "react-native";
+import { IconButton, SvgIcon } from "@material-ui/core";
+import PhoneIcon from '@material-ui/icons/Phone';
+import MailIcon from '@material-ui/icons/Mail';
 
 const Button = styled.TouchableOpacity`
   display: flex;
@@ -42,7 +45,7 @@ const PageContainer = styled.View`
 	display: flex;
 	flex-direction: column;
     flex: 1;
-    justifyContent: center;
+    justify-content: center;
 `;
 
 const FoodBankComponent = styled.View`
@@ -56,17 +59,55 @@ const PressableButton = ({ onPress, colour, text }) => (
   </Button>
 );
 
+const ContactInformation = ({icon, text}) => (
+   <View>
+        <SvgIcon
+           component={icon}
+           style={{ width: 18, height: 18 }}
+         ></SvgIcon>
+        <Text>{text}</Text>
+   </View>
+);
+
 
 
 export default function ConfirmDonation({ setPage }) {
+
+    const needs = ["Dried Spaghetti", "Bread", "Cheese"]
+    const name = "Big Food Bank"
+    const location = "Southampton"
+    const phone = "012345678"
+    const email = "food@bank.com"
 	return(
 	<PageContainer>
         
-        <Text style={styles.normalText}> Bruhcheese Food Bank</Text>
-        <Text> Southampton</Text>
-        <Text> Needs </Text>
-        <Text> Contact </Text>
+        <Text style={styles.normalText}> {name}</Text>
+        <Text style={styles.locationText}> {location} </Text>
+        <Text style={styles.headText}> Needs </Text>
+         <View style={styles.row}>
+           { needs.map(e => <Text style={styles.need}> {e} </Text>) }
+        </View>
+        <Text style={styles.headText}> Date </Text>
+        <Text style={styles.headText}> Additional Notes </Text>
+        <Text style={styles.headText}> Contact </Text>
 
+        <View style={styles.row}>
+           <SvgIcon
+               component={PhoneIcon}
+               style={{ width: 18, height: 18 }}
+            ></SvgIcon>
+            <Text style={styles.contactText}> {phone} </Text>
+        </View>  
+       
+        <View style={styles.row}>
+            <SvgIcon
+               component={MailIcon}
+               style={{ width: 18, height: 18 }}
+            ></SvgIcon>
+            <Text style={styles.contactText}> {email} </Text>
+        </View>
+
+       
 		<ButtonContainer>
 			<PressableButton
 				onPress={() => setPage("SelectFoodbank")}
@@ -116,8 +157,38 @@ const styles = StyleSheet.create({
     width: "90%",
   },
     normalText: {
-    alignItems: "center",
-    fontSize: "12",
+    alignSelf: "center",
+    fontSize: 16,
     fontFamily: "Cairo_700Bold",
   },
+
+   headText: {
+    alignSelf: "left",
+    fontSize: 20,
+    padding: 5,
+    //fontFamily: "Cairo_700Bold",
+   },
+   locationText: {
+    alignSelf: "center",
+    fontSize: 16,
+    color: "#A9A9A9",
+   },
+   contactText: {
+    alignSelf: "left",
+    fontSize: 12,
+    color: "#A9A9A9",
+   },
+
+    row: {
+    flexDirection: "row",
+    display: "flex",
+    },
+
+    need: {
+    padding: 5,
+    backgroundColor: "#404040",
+    color: "#F5F5F5",
+    borderRadius: 30,
+    marginLeft: "1rem",
+    },
 });
