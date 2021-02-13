@@ -74,6 +74,7 @@ export default function ConfirmDonation({ setPage }) {
   const email = "food@bank.com";
 
   const [dateTime, setDateTime] = useState("");
+  const [additional, setAdditional] = useState("");
 
   let [fontsLoaded] = useFonts({
     Cabin_600SemiBold,
@@ -120,13 +121,15 @@ export default function ConfirmDonation({ setPage }) {
         }}
         style={{ marginLeft: 10 }}
         onChange={(e) => setDateTime(e.target.value)}
-      ></TextField>
+      />
       <Text style={styles.headText}> Additional Notes </Text>
       <TextField
         id="standard-multiline-static"
         multiline
         rows={3}
         style={{ marginLeft: 10 }}
+        value={additional}
+        onChange={(e) => setAdditional(e.target.value)}
       />
       <Text style={styles.headText}> Contact </Text>
       <View style={styles.iconHolder}>
