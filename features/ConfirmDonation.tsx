@@ -4,7 +4,7 @@ import { Cairo_700Bold } from "@expo-google-fonts/cairo";
 import styled from "styled-components/native";
 import React from "react";
 import { StyleSheet, Text, ImageBackground, View } from "react-native";
-import { IconButton, SvgIcon } from "@material-ui/core";
+import { IconButton, SvgIcon, Avatar } from "@material-ui/core";
 import PhoneIcon from '@material-ui/icons/Phone';
 import MailIcon from '@material-ui/icons/Mail';
 
@@ -80,7 +80,11 @@ export default function ConfirmDonation({ setPage }) {
     const email = "food@bank.com"
 	return(
 	<PageContainer>
-        
+      <Avatar
+        elevation={2}
+        src="https://material-ui.com/static/images/avatar/2.jpg"
+        style={{ height: 80, width: 80, alignSelf: "center" }}
+      />
         <Text style={styles.normalText}> {name}</Text>
         <Text style={styles.locationText}> {location} </Text>
         <Text style={styles.headText}> Needs </Text>
