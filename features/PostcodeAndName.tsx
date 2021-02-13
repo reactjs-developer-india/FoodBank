@@ -70,7 +70,7 @@ export default function DonateOrVolunteer({ setPage }) {
       style={styles.container}
       imageStyle={{
         position: "absolute",
-        right: "-80vw",
+        left: "-80vw",
         borderRadius: 600,
         opacity: 0.1,
       }}

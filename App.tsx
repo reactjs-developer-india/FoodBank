@@ -4,6 +4,7 @@ import PostcodeAndName from "./features/PostcodeAndName";
 import VolunteerMap from "./features/VolunteerMap";
 import FoodBankList from "./features/FoodBankPage";
 import ConfirmDonation from "./features/ConfirmDonation";
+import ThankYou from "./features/ThankYou";
 
 export default function App() {
   const [page, setPage] = useState("DonateOrVolunteer");
@@ -15,6 +16,7 @@ export default function App() {
       {page === "VolunteerMain" && <VolunteerMap setPage={setPage} />}
       {page === "FoodbankList" && <FoodBankList setPage={setPage} />}
       {page === "ConfirmDonation" && <ConfirmDonation setPage={setPage} />}
+      {page === "ThankYou" && <ThankYou setPage={setPage} />}
     </>
   );
 }
