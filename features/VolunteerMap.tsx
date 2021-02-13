@@ -140,6 +140,7 @@ function PersonCard({}) {
               color: "white",
               fontWeight: "600",
               fontFamily: "Cabin_600SemiBold",
+              alignSelf: "flex-start",
             }}
           >
             Andy Petrov
@@ -149,6 +150,7 @@ function PersonCard({}) {
               fontSize: 18,
               fontWeight: "500",
               fontFamily: "Cabin_500Medium",
+              alignSelf: "flex-start",
             }}
           >
             Food bank
@@ -158,6 +160,7 @@ function PersonCard({}) {
               color: "white",
               opacity: 0.3,
               fontFamily: "Cabin_400Regular",
+              alignSelf: "flex-start",
             }}
           >
             Distance

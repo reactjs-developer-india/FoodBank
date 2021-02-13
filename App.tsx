@@ -7,6 +7,9 @@ import ConfirmDonation from "./features/ConfirmDonation";
 import ThankYou from "./features/ThankYou";
 import PreviousDonations from "./features/PreviousDonations";
 import { LoginContext } from "./components/state";
+import { QueryClient, QueryClientProvider, useQuery } from "react-query";
+
+const queryClient = new QueryClient();
 
 export default function App() {
   const [page, setPage] = useState("DonateOrVolunteer");
@@ -17,19 +20,22 @@ export default function App() {
 
   return (
     <>
-      <LoginContext.Provider value={contextValue}>
-        {page === "DonateOrVolunteer" && (
-          <DonateOrVolunteer setPage={setPage} />
-        )}
-        {page === "DonateMain" && <PostcodeAndName setPage={setPage} />}
-        {page === "VolunteerMain" && <VolunteerMap setPage={setPage} />}
-        {page === "FoodbankList" && <FoodBankList setPage={setPage} />}
-        {page === "ConfirmDonation" && <ConfirmDonation setPage={setPage} />}
-        {page === "PreviousDonations" && (
-          <PreviousDonations setPage={setPage} />
-        )}
-        {page === "ThankYou" && <ThankYou setPage={setPage} />}
-      </LoginContext.Provider>
+      <QueryClientProvider client={queryClient}>
+        <LoginContext.Provider value={contextValue}>
+          {page === "DonateOrVolunteer" && (
+            <DonateOrVolunteer setPage={setPage} />
+          )}
+          {page === "DonateMain" && <PostcodeAndName setPage={setPage} />}
+          {page === "SelectFoodbank" && <FoodBankList setPage={setPage} />}
+          {page === "VolunteerMain" && <VolunteerMap setPage={setPage} />}
+          {page === "FoodbankList" && <FoodBankList setPage={setPage} />}
+          {page === "ConfirmDonation" && <ConfirmDonation setPage={setPage} />}
+          {page === "PreviousDonations" && (
+            <PreviousDonations setPage={setPage} />
+          )}
+          {page === "ThankYou" && <ThankYou setPage={setPage} />}
+        </LoginContext.Provider>
+      </QueryClientProvider>
     </>
   );
 }

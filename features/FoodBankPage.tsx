@@ -1,6 +1,4 @@
-import React from "react";
-import FoodBank from "../components/FoodBank";
-import { QueryClient, QueryClientProvider, useQuery } from "react-query";
+import React, { useState, useContext } from "react";
 import { Button, ScrollView, View } from "react-native";
 import KeyboardArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
 import { IconButton, Avatar, SvgIcon, Paper } from "@material-ui/core";
@@ -12,6 +10,9 @@ import {
   Cabin_500Medium,
 } from "@expo-google-fonts/cabin";
 import { useFonts } from "@use-expo/font";
+import { useQuery } from "react-query";
+import { APIURL } from "../components/APIHandler";
+import { LoginContext } from "../components/state.js";
 
 export default function FoodBankList({ setPage }) {
   let [fontsLoaded] = useFonts({
@@ -19,6 +20,15 @@ export default function FoodBankList({ setPage }) {
     Cabin_500Medium,
     Cabin_400Regular,
   });
+
+  const [foodBanks, setFoodBanks] = useState(null);
+  const { name, setName, postcode, setPostcode } = useContext(LoginContext);
+
+  const { isLoading, error, data } = useQuery("data", () =>
+    fetch(APIURL + "findfoodbanks?postcode=" + postcode).then((res) =>
+      res.json()
+    )
+  );
 
   return (
     <View style={styles.parent}>
@@ -51,20 +61,13 @@ export default function FoodBankList({ setPage }) {
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
       >
-        <FoodBankCard />
-        <FoodBankCard />
-        <FoodBankCard />
-        <FoodBankCard />
-        <FoodBankCard />
-        <FoodBankCard />
-        <FoodBankCard />
-        <FoodBankCard />
+        {data && data.map((e) => <FoodBankCard {...e} />)}
       </ScrollView>
     </View>
   );
 }
 
-function FoodBankCard({}) {
+function FoodBankCard({ distance, image, name, priority }) {
   return (
     <View
       style={{
@@ -83,7 +86,7 @@ function FoodBankCard({}) {
       <Avatar
         component={Paper}
         elevation={2}
-        src="https://material-ui.com/static/images/avatar/2.jpg"
+        src={image}
         style={{ height: 80, width: 80 }}
       />
       <View
@@ -101,9 +104,10 @@ function FoodBankCard({}) {
             color: "white",
             fontWeight: "600",
             fontFamily: "Cabin_600SemiBold",
+            alignSelf: "flex-start",
           }}
         >
-          Andy Petrov
+          {name}
         </Text>
         <Text
           style={{
@@ -113,7 +117,7 @@ function FoodBankCard({}) {
             alignSelf: "flex-start",
           }}
         >
-          Distance
+          {(Math.round((distance / 1600) * 100) / 100).toFixed(2)} miles away
         </Text>
         <Text
           style={{
@@ -122,12 +126,21 @@ function FoodBankCard({}) {
             paddingHorizontal: 10,
             paddingVertical: 5,
             borderRadius: 20,
-            backgroundColor: "#F66A6B",
+            backgroundColor:
+              priority === "High"
+                ? "#F66A6B"
+                : priority === "Medium"
+                ? "#F6C06A"
+                : "#80CE76",
             alignSelf: "flex-start",
             marginTop: "1rem",
           }}
         >
-          URGENT
+          {priority === "High"
+            ? "URGENT"
+            : priority === "Medium"
+            ? "MEDIUM"
+            : "LOW"}
         </Text>
       </View>
     </View>
