@@ -7,9 +7,18 @@ import {
   Marker,
   InfoWindow,
 } from "@react-google-maps/api";
-import { IconButton, SvgIcon } from "@material-ui/core";
+import { IconButton, SvgIcon, Avatar } from "@material-ui/core";
 import KeyboardArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
 import CreateIcon from "@material-ui/icons/Create";
+import AlarmOnIcon from "@material-ui/icons/AlarmOn";
+import {
+  Cabin_600SemiBold,
+  Cabin_400Regular,
+  Cabin_500Medium,
+} from "@expo-google-fonts/cabin";
+import { useFonts } from "@use-expo/font";
+import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
+import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 
 const markers = [
   { lat: 50.9397, lng: -1.3974, postcode: "SO16 3GQ", date: "12/05/21" },
@@ -20,6 +29,11 @@ export default function VolunteerMap({ setPage }) {
   const [selected, setSelected] = useState(null);
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: "AIzaSyCpH_QuxnpFgRAWONd22YJODpC-XuRuQGY",
+  });
+  let [fontsLoaded] = useFonts({
+    Cabin_600SemiBold,
+    Cabin_500Medium,
+    Cabin_400Regular,
   });
 
   return (
@@ -81,8 +95,101 @@ export default function VolunteerMap({ setPage }) {
           showsHorizontalScrollIndicator={false}
           style={styles.donations}
         >
-          <Text>Bottom</Text>
+          <PersonCard />
+          <PersonCard />
+          <PersonCard />
         </ScrollView>
+      </View>
+    </View>
+  );
+}
+
+function PersonCard({}) {
+  return (
+    <View
+      style={{
+        borderRadius: 20,
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        backgroundColor: "#A39B9B",
+        padding: "1em",
+        marginBottom: "1rem",
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        shadowColor: "black",
+        shadowOffset: { height: 2, width: 4 },
+      }}
+    >
+      <View
+        style={{
+          display: "flex",
+          flexDirection: "row",
+        }}
+      >
+        <Avatar src="https://material-ui.com/static/images/avatar/2.jpg" />
+        <View style={{ paddingLeft: "1rem" }}>
+          <Text
+            style={{
+              fontSize: 22,
+              color: "white",
+              fontWeight: "600",
+              fontFamily: "Cabin_600SemiBold",
+            }}
+          >
+            Andy Petrov
+          </Text>
+          <Text
+            style={{
+              fontSize: 18,
+              fontWeight: "500",
+              fontFamily: "Cabin_500Medium",
+            }}
+          >
+            Food bank
+          </Text>
+          <Text
+            style={{
+              color: "white",
+              opacity: 0.3,
+              fontFamily: "Cabin_400Regular",
+            }}
+          >
+            Distance
+          </Text>
+        </View>
+      </View>
+      <View>
+        <Text
+          style={{
+            fontFamily: "Cabin_600SemiBold",
+            color: "white",
+            paddingHorizontal: 10,
+            paddingVertical: 5,
+            borderRadius: 20,
+            backgroundColor: "#F66A6B",
+            alignSelf: "flex-end",
+          }}
+        >
+          URGENT
+        </Text>
+        <View style={{ display: "flex", flexDirection: "row" }}>
+          <IconButton>
+            <SvgIcon
+              style={{ color: "white" }}
+              component={ErrorOutlineIcon}
+            ></SvgIcon>
+          </IconButton>
+          <IconButton>
+            <SvgIcon style={{ color: "orange" }} component={AlarmOnIcon} />
+          </IconButton>
+          <IconButton>
+            <SvgIcon
+              style={{ color: "green" }}
+              component={CheckCircleOutlineIcon}
+            />
+          </IconButton>
+        </View>
       </View>
     </View>
   );
@@ -145,6 +252,8 @@ const styles = StyleSheet.create({
     width: "100%",
     flexDirection: "column",
     marginTop: "1rem",
+    padding: 3,
+    paddingRight: 10,
   },
   textHolder: {
     display: "flex",
@@ -168,6 +277,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "#707070",
     fontWeight: "600",
+    fontFamily: "Cabin_600SemiBold",
   },
   relevantText: {
     fontSize: 18,
@@ -175,5 +285,6 @@ const styles = StyleSheet.create({
     color: "#707070",
     opacity: 0.5,
     fontWeight: "600",
+    fontFamily: "Cabin_600SemiBold",
   },
 });
