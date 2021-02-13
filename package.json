@@ -25,6 +25,7 @@
     "react-native-materialui-textfield": "^0.13.2",
     "react-native-web": "~0.13.12",
     "react-native-web-maps": "^0.3.0",
+    "react-query": "^3.9.2",
     "styled-components": "5.2.0"
   },
   "devDependencies": {
