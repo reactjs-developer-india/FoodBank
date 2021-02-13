@@ -11,6 +11,7 @@
     "@expo-google-fonts/baloo-thambi": "^0.0.2",
     "@expo-google-fonts/cairo": "^0.1.0",
     "@material-ui/core": "^4.11.3",
+    "@material-ui/icons": "^4.11.2",
     "@react-google-maps/api": "^2.1.1",
     "@types/styled-components": "^5.1.7",
     "@use-expo/font": "^2.0.0",
