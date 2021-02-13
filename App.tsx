@@ -3,6 +3,9 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import styled from "styled-components/native";
 
+import { useFonts } from "@use-expo/font";
+import { BalooThambi_Regular400 } from "@expo-google-fonts/baloo-thambi";
+
 const Button = styled.TouchableOpacity`
   display: flex;
   align-items: center;
@@ -10,11 +13,11 @@ const Button = styled.TouchableOpacity`
   border-radius: 50px;
   background-color: ${(props) => props.colour};
   margin-top: 1em;
-  height: 3em;
+  height: 4em;
 `;
 
 const ButtonText = styled.Text`
-  font-size: 16px;
+  font-size: 20px;
   text-align: center;
   color: white;
 `;
@@ -53,6 +56,10 @@ const PressableButton = ({ colour, text }) => (
 );
 
 export default function App() {
+  let [fontsLoaded] = useFonts({
+    BalooThambi_Regular400,
+  });
+
   return (
     <Container style={styles.container}>
       <Heading>
@@ -81,7 +88,11 @@ const styles = StyleSheet.create({
   },
   heading: {
     fontSize: 80,
-    fontWeight: "bold",
+    height: 60,
+    fontFamily: "BalooThambi_Regular400",
+    color: "#f66a6b",
+    textShadowColor: "black",
+    textShadowOffset: { width: 2, height: 2 },
   },
   buttonText: {
     fontSize: 20,
