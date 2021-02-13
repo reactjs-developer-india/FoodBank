@@ -3,6 +3,7 @@ import DonateOrVolunteer from "./features/DonateOrVolunteer";
 import PostcodeAndName from "./features/PostcodeAndName";
 import VolunteerMap from "./features/VolunteerMap";
 import FoodBankList from "./features/FoodBankPage";
+import ConfirmDonation from "./features/ConfirmDonation";
 
 export default function App() {
   const [page, setPage] = useState("DonateOrVolunteer");
@@ -13,6 +14,7 @@ export default function App() {
       {page === "DonateMain" && <PostcodeAndName setPage={setPage} />}
       {page === "VolunteerMain" && <VolunteerMap setPage={setPage} />}
       {page === "FoodbankList" && <FoodBankList setPage={setPage} />}
+      {page === "ConfirmDonation" && <ConfirmDonation setPage={setPage} />}
     </>
   );
 }
