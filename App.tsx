@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Image, ImageBackground } from "react-native";
 import styled from "styled-components/native";
 
 import { useFonts } from "@use-expo/font";
@@ -62,7 +62,16 @@ export default function App() {
   });
 
   return (
-    <Container style={styles.container}>
+    <ImageBackground
+      source={require("./assets/splashImage.png")}
+      style={styles.container}
+      imageStyle={{
+        position: "absolute",
+        right: "-80vw",
+        borderRadius: 600,
+        opacity: 0.1,
+      }}
+    >
       <Heading>
         <Text style={styles.heading}>FOOD</Text>
         <Text style={styles.heading}>BANK</Text>
@@ -74,18 +83,19 @@ export default function App() {
           colour={"#A39B9B"}
         ></PressableButton>
       </ButtonContainer>
-    </Container>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     display: "flex",
-    flex: 2,
+    flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "column",
+    overflow: "hidden",
   },
   heading: {
     fontSize: 80,
