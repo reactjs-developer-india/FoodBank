@@ -2,9 +2,10 @@ import { useFonts } from "@use-expo/font";
 import { BalooThambi_Regular400 } from "@expo-google-fonts/baloo-thambi";
 import { Cairo_700Bold } from "@expo-google-fonts/cairo";
 import styled from "styled-components/native";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { StyleSheet, Text, View, ImageBackground } from "react-native";
 import { Input, TextField } from "@material-ui/core";
+import { LoginContext } from "../components/state.js";
 
 const Button = styled.TouchableOpacity`
   display: flex;
@@ -61,8 +62,7 @@ export default function DonateOrVolunteer({ setPage }) {
     Cairo_700Bold,
   });
 
-  const [name, setName] = useState("");
-  const [postcode, setPostcode] = useState("");
+  const { name, setName, postcode, setPostcode } = useContext(LoginContext);
 
   return (
     <ImageBackground
@@ -91,7 +91,7 @@ export default function DonateOrVolunteer({ setPage }) {
           style={{ marginTop: "1.5em" }}
           label="Enter Postcode"
           value={postcode}
-          onChange={(e) => setPostcode(e.target.value)}
+          onChange={(e) => setPostcode(e.target.value.replace(/\s/g, ""))}
         />
       </InputContainer>
       <ButtonContainer>

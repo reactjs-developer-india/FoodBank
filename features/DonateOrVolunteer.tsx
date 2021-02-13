@@ -2,8 +2,9 @@ import { useFonts } from "@use-expo/font";
 import { BalooThambi_Regular400 } from "@expo-google-fonts/baloo-thambi";
 import { Cairo_700Bold } from "@expo-google-fonts/cairo";
 import styled from "styled-components/native";
-import React from "react";
+import React, { useContext } from "react";
 import { StyleSheet, Text, ImageBackground } from "react-native";
+import { LoginContext } from "../components/state";
 
 const Button = styled.TouchableOpacity`
   display: flex;
