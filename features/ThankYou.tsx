@@ -5,8 +5,7 @@ import styled from "styled-components/native";
 import React from "react";
 import { StyleSheet, Text, SafeAreaView, ImageBackground } from "react-native";
 import { IconButton, SvgIcon } from "@material-ui/core";
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 
 const SafeHeading = styled.SafeAreaView`
   display: flex;
@@ -21,7 +20,6 @@ const Heading = styled.View`
   justify-content: center;
   flex-direction: column;
 `;
-
 
 export default function ThankYou({ setPage }) {
   let [fontsLoaded] = useFonts({
@@ -45,11 +43,11 @@ export default function ThankYou({ setPage }) {
         <Text style={styles.heading}>BANK</Text>
       </SafeHeading>
       <Heading>
-        <SvgIcon 
-        component={CheckCircleIcon}
-        style={{ width: 98, height: 98, color: "#f66a6b"}}></SvgIcon>
+        <SvgIcon
+          component={CheckCircleIcon}
+          style={{ width: 98, height: 98, color: "#f66a6b" }}
+        ></SvgIcon>
         <Text style={styles.subheading}>Thank You!</Text>
-
       </Heading>
     </ImageBackground>
   );
@@ -73,7 +71,7 @@ const styles = StyleSheet.create({
     textShadowColor: "rgba(63,107,169, 0.2)",
     textShadowOffset: { width: 2, height: 2 },
   },
-  subheading:{
+  subheading: {
     fontSize: 35,
     height: 20,
     fontFamily: "BalooThambi_Regular400",
