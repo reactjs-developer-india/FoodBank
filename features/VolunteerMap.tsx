@@ -7,7 +7,7 @@ import {
   Marker,
   InfoWindow,
 } from "@react-google-maps/api";
-import { IconButton, SvgIcon, Avatar } from "@material-ui/core";
+import { IconButton, SvgIcon, Avatar, Paper } from "@material-ui/core";
 import KeyboardArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
 import CreateIcon from "@material-ui/icons/Create";
 import AlarmOnIcon from "@material-ui/icons/AlarmOn";
@@ -127,7 +127,12 @@ function PersonCard({}) {
           flexDirection: "row",
         }}
       >
-        <Avatar src="https://material-ui.com/static/images/avatar/2.jpg" />
+        <Avatar
+          src="https://material-ui.com/static/images/avatar/2.jpg"
+          style={{ height: 80, width: 80 }}
+          component={Paper}
+          elevation={2}
+        />
         <View style={{ paddingLeft: "1rem" }}>
           <Text
             style={{
