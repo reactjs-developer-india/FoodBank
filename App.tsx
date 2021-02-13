@@ -7,14 +7,16 @@ const Button = styled.TouchableOpacity`
   display: flex;
   align-items: center;
   justify-content: center;
-  flex: 1;
   border-radius: 50px;
-  background-color: #f66a6b;
+  background-color: ${(props) => props.colour};
+  margin-top: 1em;
+  height: 3em;
 `;
 
 const ButtonText = styled.Text`
   font-size: 16px;
   text-align: center;
+  color: white;
 `;
 
 const Container = styled.View`
@@ -22,32 +24,47 @@ const Container = styled.View`
   flex: 1;
   background-color: #fff;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
+  flex-direction: column;
+`;
+
+const Heading = styled.View`
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
   flex-direction: column;
 `;
 
 const ButtonContainer = styled.View`
   display: flex;
   flex: 1;
-  width: 95%;
+  width: 80%;
   justify-content: center;
   flex-direction: column;
+
+  margin-bottom: 1em;
 `;
 
-const PressableButton = ({ text }) => (
-  <Button>
-    <ButtonText>{text}</ButtonText>
+const PressableButton = ({ colour, text }) => (
+  <Button colour={colour}>
+    <ButtonText style={styles.buttonText}>{text}</ButtonText>
   </Button>
 );
 
 export default function App() {
   return (
     <Container style={styles.container}>
-      <Text>FOOD</Text>
-      <Text>BANK</Text>
+      <Heading>
+        <Text style={styles.heading}>FOOD</Text>
+        <Text style={styles.heading}>BANK</Text>
+      </Heading>
       <ButtonContainer>
-        <PressableButton text={"Bruh"}></PressableButton>
-        <PressableButton text={"Bruh"}></PressableButton>
+        <PressableButton text={"Donate"} colour={"#f66a6b"} />
+        <PressableButton
+          text={"Volunteer"}
+          colour={"#A39B9B"}
+        ></PressableButton>
       </ButtonContainer>
     </Container>
   );
@@ -61,5 +78,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "column",
+  },
+  heading: {
+    fontSize: 80,
+    fontWeight: "bold",
+  },
+  buttonText: {
+    fontSize: 20,
   },
 });
