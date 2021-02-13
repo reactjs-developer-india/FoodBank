@@ -7,7 +7,9 @@ import {
   Marker,
   InfoWindow,
 } from "@react-google-maps/api";
-import { Button } from "@material-ui/core";
+import { IconButton, SvgIcon } from "@material-ui/core";
+import KeyboardArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
+import CreateIcon from "@material-ui/icons/Create";
 
 export default function VolunteerMap({ setPage }) {
   const { isLoaded, loadError } = useLoadScript({
@@ -16,12 +18,19 @@ export default function VolunteerMap({ setPage }) {
   return (
     <View style={{ display: "flex" }}>
       <View style={styles.topBar}>
-        <Button>bruh</Button>
+        <IconButton>
+          <SvgIcon component={KeyboardArrowLeftIcon}></SvgIcon>
+        </IconButton>
         <View style={styles.textHolder}>
           <Text style={styles.nearText}>Requests near</Text>
           <Text style={styles.cityText}>Southampton, UK</Text>
         </View>
-        <Button>bruh</Button>
+        <IconButton style={{ marginRight: "0.5rem" }}>
+          <SvgIcon
+            component={CreateIcon}
+            style={{ width: 18, height: 18 }}
+          ></SvgIcon>
+        </IconButton>
       </View>
       {!isLoaded ? (
         <div>Loading...</div>
@@ -58,7 +67,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    marginHorizontal: "1rem",
+    marginHorizontal: "2em",
     marginTop: "0.3rem",
     marginBottom: "0.5rem",
   },
