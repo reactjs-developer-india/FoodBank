@@ -1,8 +1,9 @@
 import React from "react";
 import FoodBank from "../components/FoodBank";
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
-import { Button, View } from "react-native";
-import { IconButton, Avatar, Paper } from "@material-ui/core";
+import { Button, ScrollView, View } from "react-native";
+import KeyboardArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
+import { IconButton, Avatar, SvgIcon, Paper } from "@material-ui/core";
 import { StyleSheet, Text } from "react-native";
 import {
   Cabin_600SemiBold,
@@ -19,12 +20,30 @@ export default function FoodBankList({ setPage }) {
   });
 
   return (
-    <View style={{ paddingHorizontal: "1em" }}>
-      <FoodBankCard />
-      <FoodBankCard />
-      <FoodBankCard />
-      <FoodBankCard />
-      <FoodBankCard />
+    <View style={styles.parent}>
+      <View style={styles.topBar}>
+        <IconButton onClick={() => setPage("DonateMain")}>
+          <SvgIcon component={KeyboardArrowLeftIcon}></SvgIcon>
+        </IconButton>
+        <View style={styles.textHolder}>
+          <Text style={styles.nearText}>Foodbanks near</Text>
+          <Text style={styles.cityText}>Southampton, UK</Text>
+        </View>
+      </View>
+      <ScrollView
+        style={{ paddingHorizontal: "1em", width: "100%" }}
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+      >
+        <FoodBankCard />
+        <FoodBankCard />
+        <FoodBankCard />
+        <FoodBankCard />
+        <FoodBankCard />
+        <FoodBankCard />
+        <FoodBankCard />
+        <FoodBankCard />
+      </ScrollView>
     </View>
   );
 }
@@ -98,3 +117,60 @@ function FoodBankCard({}) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  parent: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  nearText: {
+    color: "#707070",
+    fontSize: 16,
+  },
+  cityText: {
+    fontWeight: "500",
+    color: "black",
+    fontSize: 16,
+  },
+  nearestText: {
+    fontSize: 18,
+    color: "#707070",
+    fontWeight: "600",
+    fontFamily: "Cabin_600SemiBold",
+  },
+  relevantText: {
+    fontSize: 18,
+    marginLeft: "1rem",
+    color: "#707070",
+    opacity: 0.5,
+    fontWeight: "600",
+    fontFamily: "Cabin_600SemiBold",
+  },
+  textHolder: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    marginHorizontal: "2em",
+    marginTop: "0.3rem",
+    marginBottom: "0.5rem",
+  },
+  topBar: {
+    display: "flex",
+    flex: 1,
+    alignItems: "center",
+    flexDirection: "row",
+    position: "absolute",
+    alignSelf: "center",
+    top: "2em",
+    backgroundColor: "white",
+    borderRadius: 50,
+    zIndex: 10,
+    shadowOpacity: 0.75,
+    shadowRadius: 5,
+    shadowColor: "black",
+    shadowOffset: { height: 0, width: 0 },
+  },
+});
