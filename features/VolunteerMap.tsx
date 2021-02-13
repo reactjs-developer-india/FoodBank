@@ -1,5 +1,5 @@
 import styled from "styled-components/native";
-import React from "react";
+import React, { useState } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import {
   GoogleMap,
@@ -11,14 +11,21 @@ import { IconButton, SvgIcon } from "@material-ui/core";
 import KeyboardArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
 import CreateIcon from "@material-ui/icons/Create";
 
+const markers = [
+  { lat: 50.9397, lng: -1.3974, postcode: "SO16 3GQ", date: "12/05/21" },
+  { lat: 50.9396, lng: -1.3943, postcode: "SO15 5QL", date: "12/05/21" },
+];
+
 export default function VolunteerMap({ setPage }) {
+  const [selected, setSelected] = useState(null);
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: "AIzaSyCpH_QuxnpFgRAWONd22YJODpC-XuRuQGY",
   });
+
   return (
     <View style={{ display: "flex" }}>
       <View style={styles.topBar}>
-        <IconButton>
+        <IconButton onClick={() => setPage("DonateMain")}>
           <SvgIcon component={KeyboardArrowLeftIcon}></SvgIcon>
         </IconButton>
         <View style={styles.textHolder}>
@@ -42,7 +49,26 @@ export default function VolunteerMap({ setPage }) {
           zoom={12}
           center={{ lat: 50.9397, lng: -1.3974 }}
           options={{ disableDefaultUI: true, zoomControl: true }}
-        ></GoogleMap>
+        >
+          {markers.map((marker, i) => (
+            <Marker
+              key={i}
+              position={{ lat: marker.lat, lng: marker.lng }}
+              onClick={() => setSelected(marker)}
+            />
+          ))}
+          {selected && (
+            <InfoWindow
+              position={{ lat: selected.lat, lng: selected.lng }}
+              onCloseClick={() => setSelected(null)}
+            >
+              <View>
+                <Text>{selected.postcode}</Text>
+                <Text>{selected.date}</Text>
+              </View>
+            </InfoWindow>
+          )}
+        </GoogleMap>
       )}
     </View>
   );
