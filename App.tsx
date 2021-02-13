@@ -5,6 +5,7 @@ import styled from "styled-components/native";
 
 import { useFonts } from "@use-expo/font";
 import { BalooThambi_Regular400 } from "@expo-google-fonts/baloo-thambi";
+import { Cairo_700Bold } from "@expo-google-fonts/cairo";
 
 const Button = styled.TouchableOpacity`
   display: flex;
@@ -18,7 +19,6 @@ const Button = styled.TouchableOpacity`
 
 const ButtonText = styled.Text`
   font-size: 20px;
-  text-align: center;
   color: white;
 `;
 
@@ -58,6 +58,7 @@ const PressableButton = ({ colour, text }) => (
 export default function App() {
   let [fontsLoaded] = useFonts({
     BalooThambi_Regular400,
+    Cairo_700Bold,
   });
 
   return (
@@ -91,10 +92,11 @@ const styles = StyleSheet.create({
     height: 60,
     fontFamily: "BalooThambi_Regular400",
     color: "#f66a6b",
-    textShadowColor: "black",
+    textShadowColor: "rgba(63,107,169, 0.5)",
     textShadowOffset: { width: 2, height: 2 },
   },
   buttonText: {
-    fontSize: 20,
+    fontSize: 25,
+    fontFamily: "Cairo_700Bold",
   },
 });

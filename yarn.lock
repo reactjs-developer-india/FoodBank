@@ -1041,6 +1041,11 @@
   resolved "https://registry.yarnpkg.com/@expo-google-fonts/baloo-thambi/-/baloo-thambi-0.0.2.tgz#3304c8493b2f3afa1d42112a7f3cab796ce693fe"
   integrity sha512-P5cTWZAvD5OxyBnhvJnbEc9UGXN4jomYX2OGY6VKJUzg3LeeKYWm7unOHnN76ELZjuDgbUaXVqbW/xAbA+G3Tw==
 
+"@expo-google-fonts/cairo@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@expo-google-fonts/cairo/-/cairo-0.1.0.tgz#b77ef98913a45f8f99e6497430693e31c5ffc965"
+  integrity sha512-RT/rEkBi9dZPazZJWqBv3G+s4UBmbd4TnBzAoE2n3z73Tub2zDAW5V7AdgtGcYI1hnOjosvyTNPbNEIVgpcraA==
+
 "@expo/apple-utils@0.0.0-alpha.17":
   version "0.0.0-alpha.17"
   resolved "https://registry.yarnpkg.com/@expo/apple-utils/-/apple-utils-0.0.0-alpha.17.tgz#d10cc0ef4b0f29508eaf6dd3e694b0d6edac946d"
