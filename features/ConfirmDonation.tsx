@@ -42,15 +42,15 @@ const ButtonContainer = styled.View`
 `;
 
 const PageContainer = styled.View`
-	display: flex;
-	flex-direction: column;
-    flex: 1;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justifycontent: center;
 `;
 
 const FoodBankComponent = styled.View`
-	display: flex;
-	flex-direction: column;
+  display: flex;
+  flex-direction: column;
 `;
 
 const PressableButton = ({ onPress, colour, text }) => (
@@ -58,18 +58,6 @@ const PressableButton = ({ onPress, colour, text }) => (
     <ButtonText style={styles.buttonText}>{text}</ButtonText>
   </Button>
 );
-
-const ContactInformation = ({icon, text}) => (
-   <View>
-        <SvgIcon
-           component={icon}
-           style={{ width: 18, height: 18 }}
-         ></SvgIcon>
-        <Text>{text}</Text>
-   </View>
-);
-
-
 
 export default function ConfirmDonation({ setPage }) {
 
@@ -165,34 +153,4 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: "Cairo_700Bold",
   },
-
-   headText: {
-    alignSelf: "left",
-    fontSize: 20,
-    padding: 5,
-    //fontFamily: "Cairo_700Bold",
-   },
-   locationText: {
-    alignSelf: "center",
-    fontSize: 16,
-    color: "#A9A9A9",
-   },
-   contactText: {
-    alignSelf: "left",
-    fontSize: 12,
-    color: "#A9A9A9",
-   },
-
-    row: {
-    flexDirection: "row",
-    display: "flex",
-    },
-
-    need: {
-    padding: 5,
-    backgroundColor: "#404040",
-    color: "#F5F5F5",
-    borderRadius: 30,
-    marginLeft: "1rem",
-    },
 });
