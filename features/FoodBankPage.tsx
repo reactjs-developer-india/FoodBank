@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import { Button, ScrollView, View } from "react-native";
 import KeyboardArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
 import { IconButton, Avatar, SvgIcon, Paper } from "@material-ui/core";
+import CreateIcon from "@material-ui/icons/Create";
 import { StyleSheet, Text } from "react-native";
 import {
   Cabin_600SemiBold,
@@ -22,16 +23,31 @@ export default function FoodBankList({ setPage }) {
   return (
     <View style={styles.parent}>
       <View style={styles.topBar}>
-        <IconButton onClick={() => setPage("DonateMain")}>
-          <SvgIcon component={KeyboardArrowLeftIcon}></SvgIcon>
+        <IconButton
+          style={{ backgroundColor: "#F7F4F3" }}
+          onClick={() => setPage("DonateMain")}
+        >
+          <SvgIcon component={KeyboardArrowLeftIcon} style={{ opacity: 0.7 }} />
         </IconButton>
         <View style={styles.textHolder}>
           <Text style={styles.nearText}>Foodbanks near</Text>
           <Text style={styles.cityText}>Southampton, UK</Text>
         </View>
+        <IconButton
+          style={{ marginRight: "0.5rem", backgroundColor: "#F7F4F3" }}
+        >
+          <SvgIcon
+            component={CreateIcon}
+            style={{ width: 18, height: 18, opacity: 0.7 }}
+          />
+        </IconButton>
+      </View>
+      <View style={styles.filters}>
+        <Text style={styles.nearestText}>Nearest</Text>
+        <Text style={styles.relevantText}>Most Relevant</Text>
       </View>
       <ScrollView
-        style={{ paddingHorizontal: "1em", width: "100%" }}
+        style={{ paddingHorizontal: 10, width: "100%" }}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
       >
@@ -124,27 +140,36 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
+    maxHeight: "100vh",
+    padding: "1em",
   },
   nearText: {
     color: "#707070",
     fontSize: 16,
   },
   cityText: {
-    fontWeight: "500",
+    fontWeight: "600",
     color: "black",
-    fontSize: 16,
+    fontSize: 20,
+  },
+  filters: {
+    display: "flex",
+    flexDirection: "row",
+    alignSelf: "flex-start",
+    marginVertical: "1rem",
+    marginLeft: 15,
   },
   nearestText: {
     fontSize: 18,
     color: "#707070",
     fontWeight: "600",
+    opacity: 0.5,
     fontFamily: "Cabin_600SemiBold",
   },
   relevantText: {
     fontSize: 18,
     marginLeft: "1rem",
     color: "#707070",
-    opacity: 0.5,
     fontWeight: "600",
     fontFamily: "Cabin_600SemiBold",
   },
@@ -159,18 +184,12 @@ const styles = StyleSheet.create({
   },
   topBar: {
     display: "flex",
-    flex: 1,
     alignItems: "center",
     flexDirection: "row",
-    position: "absolute",
+    width: "80%",
+    justifyContent: "space-between",
     alignSelf: "center",
-    top: "2em",
     backgroundColor: "white",
-    borderRadius: 50,
-    zIndex: 10,
-    shadowOpacity: 0.75,
-    shadowRadius: 5,
-    shadowColor: "black",
-    shadowOffset: { height: 0, width: 0 },
+    height: "5em",
   },
 });
