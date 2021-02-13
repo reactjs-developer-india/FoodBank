@@ -1,6 +1,6 @@
 import styled from "styled-components/native";
 import React, { useState } from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, ScrollView, StyleSheet } from "react-native";
 import {
   GoogleMap,
   useLoadScript,
@@ -70,6 +70,20 @@ export default function VolunteerMap({ setPage }) {
           )}
         </GoogleMap>
       )}
+      <View style={styles.bottomCard}>
+        <View style={styles.dragNub}></View>
+        <View style={styles.filters}>
+          <Text style={styles.nearestText}>Nearest</Text>
+          <Text style={styles.relevantText}>Most Relevant</Text>
+        </View>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+          style={styles.donations}
+        >
+          <Text>Bottom</Text>
+        </ScrollView>
+      </View>
     </View>
   );
 }
@@ -87,6 +101,50 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 50,
     zIndex: 10,
+    shadowOpacity: 0.75,
+    shadowRadius: 5,
+    shadowColor: "black",
+    shadowOffset: { height: 0, width: 0 },
+  },
+  bottomCard: {
+    display: "flex",
+    flexDirection: "column",
+    flex: 1,
+    width: "100%",
+    paddingVertical: "1rem",
+    paddingHorizontal: "2em",
+    alignItems: "center",
+    position: "absolute",
+    alignSelf: "center",
+    minHeight: "35%",
+    maxHeight: "35%",
+    bottom: 1,
+    backgroundColor: "white",
+    borderTopRightRadius: 50,
+    borderTopLeftRadius: 50,
+    zIndex: 10,
+    shadowOpacity: 0.75,
+    shadowRadius: 5,
+    shadowColor: "black",
+    shadowOffset: { height: 0, width: 0 },
+  },
+  dragNub: {
+    borderRadius: 40,
+    height: 5,
+    width: "10%",
+    backgroundColor: "#707070",
+    marginBottom: "1rem",
+  },
+  filters: {
+    display: "flex",
+    flexDirection: "row",
+    alignSelf: "flex-start",
+  },
+  donations: {
+    display: "flex",
+    width: "100%",
+    flexDirection: "column",
+    marginTop: "1rem",
   },
   textHolder: {
     display: "flex",
@@ -105,5 +163,17 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     color: "black",
     fontSize: 16,
+  },
+  nearestText: {
+    fontSize: 18,
+    color: "#707070",
+    fontWeight: "600",
+  },
+  relevantText: {
+    fontSize: 18,
+    marginLeft: "1rem",
+    color: "#707070",
+    opacity: 0.5,
+    fontWeight: "600",
   },
 });
