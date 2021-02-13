@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
 
-let APIURL = "https://foodbank--backend.herokuapp.com/";
+export const APIURL = "https://foodbank--backend.herokuapp.com/";
 
 function fetchFoodBanks(postcode) {
   const { isLoading, error, data } = useQuery("data", () =>
