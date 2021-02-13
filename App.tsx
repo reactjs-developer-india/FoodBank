@@ -22,15 +22,6 @@ const ButtonText = styled.Text`
   color: white;
 `;
 
-const Container = styled.View`
-  display: flex;
-  flex: 1;
-  background-color: #fff;
-  align-items: center;
-  justify-content: space-between;
-  flex-direction: column;
-`;
-
 const Heading = styled.View`
   display: flex;
   flex: 1;
@@ -50,7 +41,7 @@ const ButtonContainer = styled.View`
 `;
 
 const PressableButton = ({ colour, text }) => (
-  <Button colour={colour}>
+  <Button styles={styles.buttonElevation} colour={colour}>
     <ButtonText style={styles.buttonText}>{text}</ButtonText>
   </Button>
 );
@@ -108,5 +99,16 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 25,
     fontFamily: "Cairo_700Bold",
+  },
+  buttonElevation: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+
+    elevation: 2,
   },
 });
