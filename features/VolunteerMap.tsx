@@ -19,6 +19,7 @@ import {
   Avatar,
   Paper,
   CircularProgress,
+  Button,
 } from "@material-ui/core";
 import KeyboardArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
 import CreateIcon from "@material-ui/icons/Create";
@@ -64,7 +65,7 @@ export default function VolunteerMap({ setPage }) {
   return (
     <View style={{ display: "flex" }}>
       <View style={styles.topBar}>
-        <IconButton onClick={() => setPage("DonateMain")}>
+        <IconButton onClick={() => setPage("DonateOrVolunteer")}>
           <SvgIcon component={KeyboardArrowLeftIcon}></SvgIcon>
         </IconButton>
         <View style={styles.textHolder}>
@@ -103,35 +104,63 @@ export default function VolunteerMap({ setPage }) {
               position={{ lat: selected.start_lat, lng: selected.start_lon }}
               onCloseClick={() => setSelected(null)}
             >
-              <View>
-                <Text>
-                  <strong>Donator: </strong>
-                  {selected.username}
-                </Text>
-                <Text>
-                  <strong>Pickup Location: </strong>
-                  {selected.postcode
-                    .toUpperCase()
-                    .substring(0, selected.postcode.length - 3)}{" "}
-                  {selected.postcode
-                    .toUpperCase()
-                    .substring(selected.postcode.length - 3)}
-                </Text>
-                <Text style={{ marginTop: 10 }}>
-                  <strong>Destination:</strong> {selected.info.name}
-                </Text>
-                <Text>{selected.destination}</Text>
-                <Text>
-                  <strong>Date And Time: </strong>
-                  {format(
-                    new Date(selected.info.dateTime),
-                    "EEEE, MMMM do, yyyy hh:mm a"
-                  )}
-                </Text>
-                <Text style={{ marginTop: 10 }}>
-                  <strong>Additional Notes:</strong> {selected.info.additional}
-                </Text>
-              </View>
+              <>
+                <View>
+                  <Text>
+                    <strong>Donator: </strong>
+                    {selected.username}
+                  </Text>
+                  <Text>
+                    <strong>Pickup Location: </strong>
+                    {selected.postcode
+                      .toUpperCase()
+                      .substring(0, selected.postcode.length - 3)}{" "}
+                    {selected.postcode
+                      .toUpperCase()
+                      .substring(selected.postcode.length - 3)}
+                  </Text>
+                  <Text style={{ marginTop: 10 }}>
+                    <strong>Destination:</strong> {selected.info.name}
+                  </Text>
+                  <Text>{selected.destination}</Text>
+                  <Text>
+                    <strong>Date And Time: </strong>
+                    {format(
+                      new Date(selected.info.dateTime),
+                      "EEEE, MMMM do, yyyy hh:mm a"
+                    )}
+                  </Text>
+                  <Text style={{ marginTop: 10 }}>
+                    <strong>Additional Notes:</strong>{" "}
+                    {selected.info.additional}
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    marginTop: "1rem",
+                  }}
+                >
+                  <Button
+                    variant="outlined"
+                    style={{ color: "orange", borderColor: "orange", flex: 1 }}
+                  >
+                    Accept
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    style={{
+                      color: "green",
+                      borderColor: "green",
+                      flex: 1,
+                      marginLeft: 10,
+                    }}
+                  >
+                    Complete
+                  </Button>
+                </View>
+              </>
             </InfoWindow>
           )}
         </GoogleMap>
@@ -163,6 +192,7 @@ function PersonCard({
   onClick,
   info: { image, dateTime, name, priority },
   username,
+  status,
 }) {
   return (
     <TouchableOpacity
@@ -217,6 +247,18 @@ function PersonCard({
           >
             {name}
           </Text>
+          <Text
+            style={{
+              fontSize: 16,
+              color: "white",
+              opacity: 0.3,
+              fontWeight: "500",
+              fontFamily: "Cabin_500Medium",
+              alignSelf: "flex-start",
+            }}
+          >
+            {format(new Date(dateTime), "dd/MM HH:mm")}
+          </Text>
         </View>
       </View>
       <View>
@@ -238,22 +280,21 @@ function PersonCard({
         >
           {priority === "High" ? "Urgent" : priority}
         </Text>
-        <View style={{ display: "flex", flexDirection: "row" }}>
-          <IconButton>
-            <SvgIcon
-              style={{ color: "white" }}
-              component={ErrorOutlineIcon}
-            ></SvgIcon>
-          </IconButton>
-          <IconButton>
-            <SvgIcon style={{ color: "orange" }} component={AlarmOnIcon} />
-          </IconButton>
-          <IconButton>
-            <SvgIcon
-              style={{ color: "green" }}
-              component={CheckCircleOutlineIcon}
-            />
-          </IconButton>
+        <View>
+          <Text
+            style={{
+              fontFamily: "Cabin_600SemiBold",
+              color: "white",
+              paddingHorizontal: 10,
+              paddingVertical: 5,
+              marginTop: 10,
+              borderRadius: 20,
+              backgroundColor: status === "Pending" ? "#80CE76" : "#F6C06A",
+              alignSelf: "flex-end",
+            }}
+          >
+            {status}
+          </Text>
         </View>
       </View>
     </TouchableOpacity>
