@@ -318,7 +318,7 @@ function PersonCard({
               alignSelf: "flex-end",
             }}
           >
-            {status}
+            {status === "InProgress" ? "In Progress" : status}
           </Text>
         </View>
       </View>
