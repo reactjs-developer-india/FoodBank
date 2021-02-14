@@ -21,6 +21,7 @@ import {
 import useDispatch from "../common/hooks/useDispatch";
 import useSelector from "../common/hooks/useSelector";
 import { doGetPastDonations } from "../state";
+import { differenceInDays } from "date-fns";
 
 const PageContainer = styled.View`
   display: flex;
@@ -161,7 +162,7 @@ function FoodBankCard({ info: { image, dateTime, name }, status }) {
             alignSelf: "flex-start",
           }}
         >
-          10 days ago
+          {differenceInDays(Date.now(), new Date(dateTime))} days ago
         </Text>
         <Text
           style={{
