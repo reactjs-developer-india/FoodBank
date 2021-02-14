@@ -3,7 +3,7 @@ import {
   TypedUseSelectorHook,
 } from "react-redux";
 
-import { RootState } from "store";
+import { RootState } from "../../store";
 
 /**
  * State-aware version of the plain useSelector

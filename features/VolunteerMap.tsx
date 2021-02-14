@@ -1,6 +1,12 @@
 import styled from "styled-components/native";
 import React, { useState } from "react";
-import { Text, View, ScrollView, StyleSheet } from "react-native";
+import {
+  Text,
+  View,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import {
   GoogleMap,
   useLoadScript,
@@ -143,18 +149,24 @@ export default function VolunteerMap({ setPage }) {
         >
           {pending && <CircularProgress style={{ alignSelf: "center" }} />}
           {error && <Text>Backend is down</Text>}
-          <PersonCard />
-          <PersonCard />
-          <PersonCard />
+          {donations &&
+            donations.map((e) => (
+              <PersonCard onClick={() => setSelected(e)} {...e} />
+            ))}
         </ScrollView>
       </View>
     </View>
   );
 }
 
-function PersonCard({}) {
+function PersonCard({
+  onClick,
+  info: { image, dateTime, name, priority },
+  username,
+}) {
   return (
-    <View
+    <TouchableOpacity
+      onPress={onClick}
       style={{
         borderRadius: 20,
         display: "flex",
@@ -176,7 +188,7 @@ function PersonCard({}) {
         }}
       >
         <Avatar
-          src="https://material-ui.com/static/images/avatar/2.jpg"
+          src={image}
           style={{ height: 80, width: 80 }}
           component={Paper}
           elevation={2}
@@ -191,27 +203,19 @@ function PersonCard({}) {
               alignSelf: "flex-start",
             }}
           >
-            Andy Petrov
+            {username}
           </Text>
           <Text
             style={{
               fontSize: 18,
+              color: "white",
+              opacity: 0.5,
               fontWeight: "500",
               fontFamily: "Cabin_500Medium",
               alignSelf: "flex-start",
             }}
           >
-            Food bank
-          </Text>
-          <Text
-            style={{
-              color: "white",
-              opacity: 0.3,
-              fontFamily: "Cabin_400Regular",
-              alignSelf: "flex-start",
-            }}
-          >
-            Distance
+            {name}
           </Text>
         </View>
       </View>
@@ -223,11 +227,16 @@ function PersonCard({}) {
             paddingHorizontal: 10,
             paddingVertical: 5,
             borderRadius: 20,
-            backgroundColor: "#F66A6B",
+            backgroundColor:
+              priority === "High"
+                ? "#F66A6B"
+                : priority === "Medium"
+                ? "#F6C06A"
+                : "#80CE76",
             alignSelf: "flex-end",
           }}
         >
-          URGENT
+          {priority === "High" ? "Urgent" : priority}
         </Text>
         <View style={{ display: "flex", flexDirection: "row" }}>
           <IconButton>
@@ -247,7 +256,7 @@ function PersonCard({}) {
           </IconButton>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 

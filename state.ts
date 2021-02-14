@@ -24,7 +24,13 @@ export interface Foodbank {
 
 export interface Donation {
   donationid: string;
-  info: { additional: string; dateTime: string; image: string; name: string };
+  info: {
+    additional: string;
+    dateTime: string;
+    image: string;
+    name: string;
+    priority: string;
+  };
   postcode: string;
   start_lat: number;
   start_lon: number;

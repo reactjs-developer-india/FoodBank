@@ -93,6 +93,7 @@ export default function ConfirmDonation({ setPage }) {
     extraInfo["additional"] = additional;
     extraInfo["name"] = selectedFoodbank.name;
     extraInfo["image"] = selectedFoodbank.image;
+    extraInfo["priority"] = selectedFoodbank.priority;
 
     await api.post("donate", {
       postcode,
