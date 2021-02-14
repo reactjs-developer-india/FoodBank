@@ -4,8 +4,9 @@ import { Cairo_700Bold } from "@expo-google-fonts/cairo";
 import styled from "styled-components/native";
 import React, { useContext, useState } from "react";
 import { StyleSheet, Text, View, ImageBackground } from "react-native";
-import { Input, TextField } from "@material-ui/core";
+import { Input, TextField, IconButton, SvgIcon } from "@material-ui/core";
 import useDispatch from "../common/hooks/useDispatch";
+import KeyboardArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
 
 const Button = styled.TouchableOpacity`
   display: flex;
@@ -76,6 +77,17 @@ export default function DonateOrVolunteer({ setPage }) {
         opacity: 0.1,
       }}
     >
+      <IconButton
+        style={{
+          backgroundColor: "#F7F4F3",
+          position: "absolute",
+          top: "1rem",
+          left: "1rem",
+        }}
+        onClick={() => setPage("DonateOrVolunteer")}
+      >
+        <SvgIcon component={KeyboardArrowLeftIcon} style={{ opacity: 0.7 }} />
+      </IconButton>
       <Heading>
         <Text style={styles.heading}>FOOD</Text>
         <Text style={styles.heading}>BANK</Text>
