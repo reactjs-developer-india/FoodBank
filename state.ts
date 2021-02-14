@@ -38,18 +38,28 @@ interface FoodbankFinished {
   error?: string;
 }
 
-export type FoodbankActions = FoodbankStarted | FoodbankFinished;
+interface FoodbankSelected {
+  type: "foodbank/selected";
+  selectedFoodbank: Foodbank;
+}
+
+export type FoodbankActions =
+  | FoodbankStarted
+  | FoodbankFinished
+  | FoodbankSelected;
 export type LoginActions = LoginUpdate;
 
 interface FoodbankState {
   pending: boolean;
   foodbanks: Foodbank[] | null | undefined;
+  selectedFoodbank: Foodbank | null | undefined;
   error: string | null | undefined;
 }
 
 export const defaultFoodbankState: FoodbankState = {
   pending: false,
   foodbanks: null,
+  selectedFoodbank: null,
   error: null,
 };
 
@@ -79,6 +89,10 @@ export const foodbankReducer: Reducer<FoodbankState, FoodbankActions> = (
         draft.pending = false;
         draft.foodbanks = action.foodbanks;
         draft.error = action.error;
+        return;
+
+      case "foodbank/selected":
+        draft.selectedFoodbank = action.selectedFoodbank;
         return;
 
       default:

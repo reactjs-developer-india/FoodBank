@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Button, ScrollView, View } from "react-native";
+import { Button, ScrollView, TouchableOpacity, View } from "react-native";
 import KeyboardArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
 import {
   IconButton,
@@ -76,7 +76,7 @@ export default function FoodBankList({ setPage }) {
           foodbanks.map((e) => (
             <FoodBankCard
               onClick={() => {
-                dispatch({ type: "donate/select", foodbank: e });
+                dispatch({ type: "foodbank/selected", selectedFoodbank: e });
                 setPage("ConfirmDonation");
               }}
               {...e}
@@ -89,9 +89,10 @@ export default function FoodBankList({ setPage }) {
   );
 }
 
-function FoodBankCard({ distance, image, name, priority }) {
+function FoodBankCard({ onClick, distance, image, name, priority }) {
   return (
-    <View
+    <TouchableOpacity
+      onPress={onClick}
       style={{
         borderRadius: 20,
         display: "flex",
@@ -165,7 +166,7 @@ function FoodBankCard({ distance, image, name, priority }) {
             : "LOW"}
         </Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 

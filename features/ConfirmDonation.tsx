@@ -11,6 +11,7 @@ import {
   Avatar,
   Paper,
   TextField,
+  CircularProgress,
 } from "@material-ui/core";
 import PhoneIcon from "@material-ui/icons/Phone";
 import MailIcon from "@material-ui/icons/Mail";
@@ -19,6 +20,9 @@ import {
   Cabin_400Regular,
   Cabin_500Medium,
 } from "@expo-google-fonts/cabin";
+
+import useSelector from "../common/hooks/useSelector";
+import useDispatch from "../common/hooks/useDispatch";
 
 const Button = styled.TouchableOpacity`
   display: flex;
@@ -61,20 +65,11 @@ const PressableButton = ({ onPress, colour, text }) => (
 );
 
 export default function ConfirmDonation({ setPage }) {
-  const needs = [
-    "Dried Spaghetti",
-    "Bread",
-    "Cheese",
-    "Mom's Spaghetti",
-    "Poggercino",
-  ];
-  const name = "Big Food Bank";
-  const location = "Southampton, UK";
-  const phone = "012345678";
-  const email = "food@bank.com";
-
   const [dateTime, setDateTime] = useState("");
   const [additional, setAdditional] = useState("");
+
+  const { selectedFoodbank } = useSelector((state) => state.foodbanks);
+  const dispatch = useDispatch();
 
   let [fontsLoaded] = useFonts({
     Cabin_600SemiBold,
@@ -94,61 +89,74 @@ export default function ConfirmDonation({ setPage }) {
           top: "1rem",
           left: "1rem",
         }}
-        onClick={() => setPage("DonateMain")}
+        onClick={() => setPage("FoodbankList")}
       >
         <SvgIcon component={KeyboardArrowLeftIcon} style={{ opacity: 0.7 }} />
       </IconButton>
-      <Avatar
-        elevation={2}
-        component={Paper}
-        src="https://material-ui.com/static/images/avatar/2.jpg"
-        style={{ height: 100, width: 100, alignSelf: "center" }}
-      />
-      <Text style={styles.normalText}> {name}</Text>
-      <Text style={styles.locationText}> {location} </Text>
-      <Text style={styles.headText}> Needs </Text>
-      <View style={styles.row}>
-        {needs.map((e) => (
-          <Text style={styles.need}> {e} </Text>
-        ))}
-      </View>
-      <Text style={styles.headText}> Date </Text>
-      <TextField
-        type="datetime-local"
-        value={dateTime}
-        InputLabelProps={{
-          shrink: true,
-        }}
-        style={{ marginLeft: 10 }}
-        onChange={(e) => setDateTime(e.target.value)}
-      />
-      <Text style={styles.headText}> Additional Notes </Text>
-      <TextField
-        id="standard-multiline-static"
-        multiline
-        rows={3}
-        style={{ marginLeft: 10 }}
-        value={additional}
-        onChange={(e) => setAdditional(e.target.value)}
-      />
-      <Text style={styles.headText}> Contact </Text>
-      <View style={styles.iconHolder}>
-        <SvgIcon component={PhoneIcon}></SvgIcon>
-        <Text style={styles.contactText}>{phone}</Text>
-      </View>
+      {selectedFoodbank ? (
+        <>
+          <Avatar
+            elevation={2}
+            component={Paper}
+            src={selectedFoodbank.image}
+            style={{ height: 100, width: 100, alignSelf: "center" }}
+          />
+          <Text style={styles.normalText}>{selectedFoodbank.name}</Text>
+          <Text style={styles.locationText}>
+            {selectedFoodbank.location.replace(/\n/g, ", ")}
+          </Text>
+          <Text style={styles.headText}>Needs</Text>
+          <View style={styles.row}>
+            {selectedFoodbank.needs.needs
+              .split("\n")
+              .slice(0, 4)
+              .map((e) => (
+                <Text style={styles.need}>
+                  {e.replace(/ *\([^)]*\) */g, "")}
+                </Text>
+              ))}
+          </View>
+          <Text style={styles.headText}>Date</Text>
+          <TextField
+            type="datetime-local"
+            value={dateTime}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            style={{ marginLeft: 10 }}
+            onChange={(e) => setDateTime(e.target.value)}
+          />
+          <Text style={styles.headText}> Additional Notes </Text>
+          <TextField
+            id="standard-multiline-static"
+            multiline
+            rows={3}
+            style={{ marginLeft: 10 }}
+            value={additional}
+            onChange={(e) => setAdditional(e.target.value)}
+          />
+          <Text style={styles.headText}> Contact </Text>
+          <View style={styles.iconHolder}>
+            <SvgIcon component={PhoneIcon}></SvgIcon>
+            <Text style={styles.contactText}>{selectedFoodbank.phone}</Text>
+          </View>
 
-      <View style={styles.iconHolder}>
-        <SvgIcon component={MailIcon}></SvgIcon>
-        <Text style={styles.contactText}>{email}</Text>
-      </View>
+          <View style={styles.iconHolder}>
+            <SvgIcon component={MailIcon}></SvgIcon>
+            <Text style={styles.contactText}>{selectedFoodbank.url}</Text>
+          </View>
 
-      <ButtonContainer>
-        <PressableButton
-          onPress={() => setPage("SelectFoodbank")}
-          text={"Confirm"}
-          colour={"#f66a6b"}
-        />
-      </ButtonContainer>
+          <ButtonContainer>
+            <PressableButton
+              onPress={() => setPage("SelectFoodbank")}
+              text={"Confirm"}
+              colour={"#f66a6b"}
+            />
+          </ButtonContainer>
+        </>
+      ) : (
+        <CircularProgress style={{ alignSelf: "center" }} />
+      )}
     </PageContainer>
   );
 }
@@ -199,6 +207,7 @@ const styles = StyleSheet.create({
     color: "#A9A9A9",
     fontFamily: "Cairo_400Regular",
     opacity: 0.7,
+    textAlign: "center",
   },
   contactText: {
     alignSelf: "flex-start",
