@@ -64,12 +64,23 @@ interface DonationListFinished {
   error?: string;
 }
 
+interface AllDonationStarted {
+  type: "all_donation/started";
+}
+
+interface AllDonationFinished {
+  type: "all_donation/finished";
+  donations?: Donation[];
+  error?: string;
+}
+
 export type FoodbankActions =
   | FoodbankStarted
   | FoodbankFinished
   | FoodbankSelected;
 export type LoginActions = LoginUpdate;
 export type DonationListActions = DonationListStarted | DonationListFinished;
+export type AllDonationActions = AllDonationStarted | AllDonationFinished;
 
 interface FoodbankState {
   pending: boolean;
@@ -89,6 +100,18 @@ interface DonationListState {
   pending: boolean;
   donations: Donation[] | null | undefined;
   image: string | null | undefined;
+  error: string | null | undefined;
+}
+
+export const defaultAllDonationState: AllDonationState = {
+  pending: false,
+  donations: null,
+  error: null,
+};
+
+interface AllDonationState {
+  pending: boolean;
+  donations: Donation[] | null | undefined;
   error: string | null | undefined;
 }
 
@@ -171,6 +194,27 @@ export const donationListReducer: Reducer<
     }
   });
 
+export const allDonationReducer: Reducer<
+  AllDonationState,
+  AllDonationActions
+> = (state = defaultAllDonationState, action) =>
+  produce(state, (draft) => {
+    switch (action.type) {
+      case "all_donation/started":
+        draft.pending = true;
+        return;
+
+      case "all_donation/finished":
+        draft.pending = false;
+        draft.donations = action.donations;
+        draft.error = action.error;
+        return;
+
+      default:
+        exhaustivenessCheck(action);
+    }
+  });
+
 // Thunk Actions
 
 /**
@@ -228,6 +272,27 @@ export const doGetPastDonations = (): ThunkAction<Promise<void>> => async (
   } catch (e) {
     dispatch({
       type: "donation_list/finished",
+      error: "Failed to retrieve donations",
+    });
+  }
+};
+
+/**
+ * Retrieves nearby foodbanks from API given postcode
+ */
+export const doGetAllDonations = (): ThunkAction<Promise<void>> => async (
+  dispatch,
+  getState,
+  { api }
+) => {
+  dispatch({ type: "all_donation/started" });
+
+  try {
+    const response = await api.get("getalldonations");
+    dispatch({ type: "all_donation/finished", donations: response.data.data });
+  } catch (e) {
+    dispatch({
+      type: "all_donation/finished",
       error: "Failed to retrieve donations",
     });
   }

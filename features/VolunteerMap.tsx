@@ -7,7 +7,13 @@ import {
   Marker,
   InfoWindow,
 } from "@react-google-maps/api";
-import { IconButton, SvgIcon, Avatar, Paper } from "@material-ui/core";
+import {
+  IconButton,
+  SvgIcon,
+  Avatar,
+  Paper,
+  CircularProgress,
+} from "@material-ui/core";
 import KeyboardArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
 import CreateIcon from "@material-ui/icons/Create";
 import AlarmOnIcon from "@material-ui/icons/AlarmOn";
@@ -19,6 +25,10 @@ import {
 import { useFonts } from "@use-expo/font";
 import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
+import useDispatch from "../common/hooks/useDispatch";
+import { doGetAllDonations } from "../state";
+import useSelector from "../common/hooks/useSelector";
+import { format, parse } from "date-fns";
 
 const markers = [
   { lat: 50.9397, lng: -1.3974, postcode: "SO16 3GQ", date: "12/05/21" },
@@ -35,6 +45,15 @@ export default function VolunteerMap({ setPage }) {
     Cabin_500Medium,
     Cabin_400Regular,
   });
+
+  const dispatch = useDispatch();
+  const { donations, pending, error } = useSelector(
+    (state) => state.allDonation
+  );
+
+  React.useEffect(() => {
+    dispatch(doGetAllDonations());
+  }, []);
 
   return (
     <View style={{ display: "flex" }}>
@@ -64,21 +83,48 @@ export default function VolunteerMap({ setPage }) {
           center={{ lat: 50.9397, lng: -1.3974 }}
           options={{ disableDefaultUI: true, zoomControl: true }}
         >
-          {markers.map((marker, i) => (
-            <Marker
-              key={i}
-              position={{ lat: marker.lat, lng: marker.lng }}
-              onClick={() => setSelected(marker)}
-            />
-          ))}
+          {donations &&
+            !pending &&
+            donations.map((marker, i) => (
+              <Marker
+                key={i}
+                position={{ lat: marker.start_lat, lng: marker.start_lon }}
+                onClick={() => setSelected(marker)}
+              />
+            ))}
           {selected && (
             <InfoWindow
-              position={{ lat: selected.lat, lng: selected.lng }}
+              position={{ lat: selected.start_lat, lng: selected.start_lon }}
               onCloseClick={() => setSelected(null)}
             >
               <View>
-                <Text>{selected.postcode}</Text>
-                <Text>{selected.date}</Text>
+                <Text>
+                  <strong>Donator: </strong>
+                  {selected.username}
+                </Text>
+                <Text>
+                  <strong>Pickup Location: </strong>
+                  {selected.postcode
+                    .toUpperCase()
+                    .substring(0, selected.postcode.length - 3)}{" "}
+                  {selected.postcode
+                    .toUpperCase()
+                    .substring(selected.postcode.length - 3)}
+                </Text>
+                <Text style={{ marginTop: 10 }}>
+                  <strong>Destination:</strong> {selected.info.name}
+                </Text>
+                <Text>{selected.destination}</Text>
+                <Text>
+                  <strong>Date And Time: </strong>
+                  {format(
+                    new Date(selected.info.dateTime),
+                    "EEEE, MMMM do, yyyy hh:mm a"
+                  )}
+                </Text>
+                <Text style={{ marginTop: 10 }}>
+                  <strong>Additional Notes:</strong> {selected.info.additional}
+                </Text>
               </View>
             </InfoWindow>
           )}
@@ -95,6 +141,8 @@ export default function VolunteerMap({ setPage }) {
           showsHorizontalScrollIndicator={false}
           style={styles.donations}
         >
+          {pending && <CircularProgress style={{ alignSelf: "center" }} />}
+          {error && <Text>Backend is down</Text>}
           <PersonCard />
           <PersonCard />
           <PersonCard />

@@ -10,6 +10,8 @@ import {
   LoginActions,
   DonationListActions,
   donationListReducer,
+  AllDonationActions,
+  allDonationReducer,
 } from "./state";
 
 export const api = axios.create({
@@ -20,6 +22,7 @@ const rootReducer = Redux.combineReducers({
   foodbanks: foodbankReducer,
   login: loginReducer,
   donationList: donationListReducer,
+  allDonation: allDonationReducer,
 });
 
 /**
@@ -30,7 +33,11 @@ export type RootState = ReturnType<typeof rootReducer>;
 /**
  * Union of all supported application actions
  */
-export type PlainActions = FoodbankActions | LoginActions | DonationListActions; // add other actions as union
+export type PlainActions =
+  | FoodbankActions
+  | LoginActions
+  | DonationListActions
+  | AllDonationActions; // add other actions as union
 
 interface ThunkExtra {
   /** Axios instance bound to the API. */
