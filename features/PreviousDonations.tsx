@@ -142,6 +142,7 @@ function FoodBankCard({ info: { image, dateTime, name }, status }) {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
+          width: "70%",
         }}
       >
         <Text
@@ -150,6 +151,7 @@ function FoodBankCard({ info: { image, dateTime, name }, status }) {
             color: "white",
             fontWeight: "600",
             fontFamily: "Cabin_600SemiBold",
+            alignSelf: "flex-start",
           }}
         >
           {name}
@@ -174,7 +176,7 @@ function FoodBankCard({ info: { image, dateTime, name }, status }) {
             backgroundColor: "#80CE76",
             opacity: 0.8,
             marginLeft: "auto",
-            alignSelf: "flex-start",
+            alignSelf: "flex-end",
             marginTop: "1rem",
           }}
         >
