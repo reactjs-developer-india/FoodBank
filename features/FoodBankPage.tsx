@@ -8,7 +8,7 @@ import {
   Paper,
   CircularProgress,
 } from "@material-ui/core";
-import CreateIcon from "@material-ui/icons/Create";
+import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
 import { StyleSheet, Text } from "react-native";
 import {
   Cabin_600SemiBold,
@@ -55,9 +55,10 @@ export default function FoodBankList({ setPage }) {
         </View>
         <IconButton
           style={{ marginRight: "0.5rem", backgroundColor: "#F7F4F3" }}
+          onClick={() => setPage("PreviousDonations")}
         >
           <SvgIcon
-            component={CreateIcon}
+            component={ShoppingBasketIcon}
             style={{ width: 18, height: 18, opacity: 0.7 }}
           />
         </IconButton>

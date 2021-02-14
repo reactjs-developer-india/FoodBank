@@ -22,6 +22,16 @@ export interface Foodbank {
   url: string;
 }
 
+export interface Donation {
+  donationid: string;
+  info: { additional: string; dateTime: string; image: string; name: string };
+  postcode: string;
+  start_lat: number;
+  start_lon: number;
+  status: string;
+  username: string;
+}
+
 interface LoginUpdate {
   type: "login/update";
   name: string;
@@ -43,11 +53,23 @@ interface FoodbankSelected {
   selectedFoodbank: Foodbank;
 }
 
+interface DonationListStarted {
+  type: "donation_list/started";
+}
+
+interface DonationListFinished {
+  type: "donation_list/finished";
+  donations?: Donation[];
+  image?: string;
+  error?: string;
+}
+
 export type FoodbankActions =
   | FoodbankStarted
   | FoodbankFinished
   | FoodbankSelected;
 export type LoginActions = LoginUpdate;
+export type DonationListActions = DonationListStarted | DonationListFinished;
 
 interface FoodbankState {
   pending: boolean;
@@ -60,6 +82,20 @@ export const defaultFoodbankState: FoodbankState = {
   pending: false,
   foodbanks: null,
   selectedFoodbank: null,
+  error: null,
+};
+
+interface DonationListState {
+  pending: boolean;
+  donations: Donation[] | null | undefined;
+  image: string | null | undefined;
+  error: string | null | undefined;
+}
+
+export const defaultDonateListState: DonationListState = {
+  pending: false,
+  donations: null,
+  image: null,
   error: null,
 };
 
@@ -113,6 +149,28 @@ export const loginReducer: Reducer<LoginState, LoginActions> = (
     }
   });
 
+export const donationListReducer: Reducer<
+  DonationListState,
+  DonationListActions
+> = (state = defaultDonateListState, action) =>
+  produce(state, (draft) => {
+    switch (action.type) {
+      case "donation_list/started":
+        draft.pending = true;
+        return;
+
+      case "donation_list/finished":
+        draft.pending = false;
+        draft.donations = action.donations;
+        draft.image = action.image;
+        draft.error = action.error;
+        return;
+
+      default:
+        exhaustivenessCheck(action);
+    }
+  });
+
 // Thunk Actions
 
 /**
@@ -134,6 +192,43 @@ export const doGetFoodbanks = (postcode): ThunkAction<Promise<void>> => async (
     dispatch({
       type: "foodbank/finished",
       error: "Failed to retrieve foodbanks",
+    });
+  }
+};
+
+interface DonationResponse {
+  data: { donations: Donation[] };
+  image: string;
+}
+
+/**
+ * Retrieves nearby foodbanks from API given postcode
+ */
+export const doGetPastDonations = (): ThunkAction<Promise<void>> => async (
+  dispatch,
+  getState,
+  { api }
+) => {
+  dispatch({ type: "donation_list/started" });
+  const { name } = getState().login;
+
+  try {
+    fetch(
+      "https://foodbank--backend.herokuapp.com/userdonations?username=" +
+        name.trim()
+    )
+      .then((res) => res.json())
+      .then((e) => {
+        dispatch({
+          type: "donation_list/finished",
+          donations: e.data.donations,
+          image: e.data.image,
+        });
+      });
+  } catch (e) {
+    dispatch({
+      type: "donation_list/finished",
+      error: "Failed to retrieve donations",
     });
   }
 };

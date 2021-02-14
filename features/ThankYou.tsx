@@ -6,6 +6,8 @@ import React from "react";
 import { StyleSheet, Text, SafeAreaView, ImageBackground } from "react-native";
 import { IconButton, SvgIcon } from "@material-ui/core";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import useDispatch from "../common/hooks/useDispatch";
+import { doGetPastDonations } from "../state";
 
 const SafeHeading = styled.SafeAreaView`
   display: flex;
@@ -26,6 +28,14 @@ export default function ThankYou({ setPage }) {
     BalooThambi_Regular400,
     Cairo_700Bold,
   });
+
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    setTimeout(() => {
+      setPage("PreviousDonations");
+    }, 2000);
+  }, []);
 
   return (
     <ImageBackground

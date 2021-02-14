@@ -23,6 +23,7 @@ import {
 
 import useSelector from "../common/hooks/useSelector";
 import useDispatch from "../common/hooks/useDispatch";
+import { api } from "../store";
 
 const Button = styled.TouchableOpacity`
   display: flex;
@@ -58,8 +59,13 @@ const PageContainer = styled.View`
   padding: 1em;
 `;
 
-const PressableButton = ({ onPress, colour, text }) => (
-  <Button onPress={onPress} styles={styles.buttonElevation} colour={colour}>
+const PressableButton = ({ onPress, colour, text, disabled }) => (
+  <Button
+    disabled={disabled}
+    onPress={onPress}
+    styles={styles.buttonElevation}
+    colour={colour}
+  >
     <ButtonText style={styles.buttonText}>{text}</ButtonText>
   </Button>
 );
@@ -68,6 +74,7 @@ export default function ConfirmDonation({ setPage }) {
   const [dateTime, setDateTime] = useState("");
   const [additional, setAdditional] = useState("");
 
+  const { name, postcode } = useSelector((state) => state.login);
   const { selectedFoodbank } = useSelector((state) => state.foodbanks);
   const dispatch = useDispatch();
 
@@ -79,6 +86,20 @@ export default function ConfirmDonation({ setPage }) {
     Cairo_700Bold,
     Cairo_400Regular,
   });
+
+  const doDonate = async () => {
+    let extraInfo = {};
+    extraInfo["dateTime"] = dateTime;
+    extraInfo["additional"] = additional;
+    extraInfo["name"] = selectedFoodbank.name;
+    extraInfo["image"] = selectedFoodbank.image;
+
+    await api.post("donate", {
+      postcode,
+      username: name,
+      info: extraInfo,
+    });
+  };
 
   return (
     <PageContainer>
@@ -148,7 +169,11 @@ export default function ConfirmDonation({ setPage }) {
 
           <ButtonContainer>
             <PressableButton
-              onPress={() => setPage("SelectFoodbank")}
+              disabled={!dateTime}
+              onPress={() => {
+                doDonate();
+                setPage("ThankYou");
+              }}
               text={"Confirm"}
               colour={"#f66a6b"}
             />

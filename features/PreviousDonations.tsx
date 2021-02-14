@@ -3,42 +3,24 @@ import { BalooThambi_Regular400 } from "@expo-google-fonts/baloo-thambi";
 import { Cairo_700Bold, Cairo_400Regular } from "@expo-google-fonts/cairo";
 import styled from "styled-components/native";
 import React, { useState } from "react";
-import KeyboardArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
-import {
-  StyleSheet,
-  Text,
-  ImageBackground,
-  View,
-  ScrollView,
-} from "react-native";
+import HomeIcon from "@material-ui/icons/Home";
+import { StyleSheet, Text, View, ScrollView } from "react-native";
 import {
   IconButton,
   SvgIcon,
   Avatar,
   Paper,
-  TextField,
+  CircularProgress,
 } from "@material-ui/core";
-import PhoneIcon from "@material-ui/icons/Phone";
-import MailIcon from "@material-ui/icons/Mail";
 import {
   Cabin_600SemiBold,
   Cabin_400Regular,
   Cabin_500Medium,
 } from "@expo-google-fonts/cabin";
-const Button = styled.TouchableOpacity`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50px;
-  background-color: ${(props) => props.colour};
-  margin-top: 1em;
-  height: 4em;
-`;
 
-const ButtonText = styled.Text`
-  font-size: 20px;
-  color: white;
-`;
+import useDispatch from "../common/hooks/useDispatch";
+import useSelector from "../common/hooks/useSelector";
+import { doGetPastDonations } from "../state";
 
 const PageContainer = styled.View`
   display: flex;
@@ -48,29 +30,7 @@ const PageContainer = styled.View`
   padding: 1em;
 `;
 
-const PressableButton = ({ onPress, colour, text }) => (
-  <Button onPress={onPress} styles={styles.buttonElevation} colour={colour}>
-    <ButtonText style={styles.buttonText}>{text}</ButtonText>
-  </Button>
-);
-
 export default function PreviousDonations({ setPage }) {
-  const needs = [
-    "Dried Spaghetti",
-    "Bread",
-    "Cheese",
-    "Mom's Spaghetti",
-    "Poggercino",
-  ];
-
-  const name = "Sohaib Karous";
-  const location = "Southampton, UK";
-  const phone = "012345678";
-  const email = "food@bank.com";
-
-  const [dateTime, setDateTime] = useState("");
-  const [additional, setAdditional] = useState("");
-
   let [fontsLoaded] = useFonts({
     Cabin_600SemiBold,
     Cabin_500Medium,
@@ -80,60 +40,79 @@ export default function PreviousDonations({ setPage }) {
     Cairo_400Regular,
   });
 
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    dispatch(doGetPastDonations());
+  }, []);
+
+  const { donations, pending, image, error } = useSelector(
+    (state) => state.donationList
+  );
+  const { name, postcode } = useSelector((state) => state.login);
+  let uPostcode = postcode.toUpperCase();
+
   return (
     <PageContainer>
-      <IconButton
-        style={{
-          backgroundColor: "#F7F4F3",
-          position: "absolute",
-          top: "1rem",
-          left: "1rem",
-        }}
-        onClick={() => setPage("DonateMain")}
-      >
-        <SvgIcon component={KeyboardArrowLeftIcon} style={{ opacity: 0.7 }} />
-      </IconButton>
-      <Avatar
-        elevation={2}
-        component={Paper}
-        src="https://material-ui.com/static/images/avatar/2.jpg"
-        style={{ height: 100, width: 100, alignSelf: "center" }}
-      />
-      <Text style={styles.normalText}>{name}</Text>
-      <Text style={styles.locationText}>{location}</Text>
-      <Text style={styles.headText}>Past Donations</Text>
-      <ScrollView
-        style={{ paddingHorizontal: 10, width: "100%" }}
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-      >
-        <FoodBankCard />
-        <FoodBankCard />
-        <FoodBankCard />
-        <FoodBankCard />
-        <FoodBankCard />
-      </ScrollView>
-      <Text
-        style={{
-          marginTop: "auto",
-          fontSize: 24,
-          lineHeight: 28,
-          alignSelf: "center",
-          marginBottom: "1em",
-          fontFamily: "Cairo_700Bold",
-          width: "50%",
-          textAlign: "center",
-          opacity: 0.4,
-          color: "#40434E",
-        }}
-      >
-        Thank you for being awesome!
-      </Text>
+      {donations && (
+        <>
+          <IconButton
+            style={{
+              backgroundColor: "#F7F4F3",
+              position: "absolute",
+              top: "1rem",
+              left: "1rem",
+            }}
+            onClick={() => setPage("FoodbankList")}
+          >
+            <SvgIcon component={HomeIcon} style={{ opacity: 0.7 }} />
+          </IconButton>
+          <Avatar
+            elevation={2}
+            component={Paper}
+            src={image}
+            style={{ height: 100, width: 100, alignSelf: "center" }}
+          />
+          <Text style={styles.normalText}>{name}</Text>
+          <Text style={styles.locationText}>
+            {uPostcode.substring(0, uPostcode.length - 3)}{" "}
+            {uPostcode.substring(uPostcode.length - 3)}
+          </Text>
+          <Text style={styles.headText}>Past Donations</Text>
+          <ScrollView
+            style={{ paddingHorizontal: 10, width: "100%" }}
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+          >
+            {donations &&
+              !pending &&
+              donations.map((e) => <FoodBankCard {...e} />)}
+          </ScrollView>
+          <Text
+            style={{
+              marginTop: "auto",
+              fontSize: 24,
+              lineHeight: 28,
+              alignSelf: "center",
+              marginBottom: "1em",
+              fontFamily: "Cairo_700Bold",
+              width: "50%",
+              textAlign: "center",
+              opacity: 0.4,
+              color: "#40434E",
+            }}
+          >
+            Thank you for being awesome!
+          </Text>
+        </>
+      )}
+      {pending && <CircularProgress style={{ alignSelf: "center" }} />}
+      {error && <Text>Backend is down</Text>}
     </PageContainer>
   );
 }
 
-function FoodBankCard({}) {
+function FoodBankCard({ info: { image, dateTime, name }, status }) {
   return (
     <View
       style={{
@@ -152,7 +131,7 @@ function FoodBankCard({}) {
       <Avatar
         component={Paper}
         elevation={2}
-        src="https://material-ui.com/static/images/avatar/2.jpg"
+        src={image}
         style={{ height: 80, width: 80 }}
       />
       <View
@@ -172,7 +151,7 @@ function FoodBankCard({}) {
             fontFamily: "Cabin_600SemiBold",
           }}
         >
-          Andy Petrov
+          {name}
         </Text>
         <Text
           style={{
@@ -184,23 +163,23 @@ function FoodBankCard({}) {
         >
           10 days ago
         </Text>
+        <Text
+          style={{
+            fontFamily: "Cabin_600SemiBold",
+            color: "white",
+            paddingHorizontal: 10,
+            paddingVertical: 5,
+            borderRadius: 20,
+            backgroundColor: "#80CE76",
+            opacity: 0.8,
+            marginLeft: "auto",
+            alignSelf: "flex-start",
+            marginTop: "1rem",
+          }}
+        >
+          {status}
+        </Text>
       </View>
-      <Text
-        style={{
-          fontFamily: "Cabin_600SemiBold",
-          color: "white",
-          paddingHorizontal: 10,
-          paddingVertical: 5,
-          borderRadius: 20,
-          backgroundColor: "#80CE76",
-          opacity: 0.8,
-          marginLeft: "auto",
-          alignSelf: "flex-start",
-          marginTop: "1rem",
-        }}
-      >
-        Delivered
-      </Text>
     </View>
   );
 }
