@@ -25,7 +25,6 @@ import {
   Cabin_400Regular,
   Cabin_500Medium,
 } from "@expo-google-fonts/cabin";
-
 const Button = styled.TouchableOpacity`
   display: flex;
   align-items: center;
@@ -39,17 +38,6 @@ const Button = styled.TouchableOpacity`
 const ButtonText = styled.Text`
   font-size: 20px;
   color: white;
-`;
-
-const ButtonContainer = styled.View`
-  display: flex;
-  flex: 1;
-  width: 80%;
-  justify-content: center;
-  flex-direction: column;
-  align-self: center;
-
-  margin-bottom: 1em;
 `;
 
 const PageContainer = styled.View`

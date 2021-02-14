@@ -4,7 +4,7 @@ import { Cairo_700Bold, Cairo_400Regular } from "@expo-google-fonts/cairo";
 import styled from "styled-components/native";
 import React, { useState } from "react";
 import KeyboardArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
-import { StyleSheet, Text, ImageBackground, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import {
   IconButton,
   SvgIcon,

@@ -5,7 +5,7 @@ import styled from "styled-components/native";
 import React, { useContext, useState } from "react";
 import { StyleSheet, Text, View, ImageBackground } from "react-native";
 import { Input, TextField } from "@material-ui/core";
-import { LoginContext } from "../components/state.js";
+import useDispatch from "../common/hooks/useDispatch";
 
 const Button = styled.TouchableOpacity`
   display: flex;
@@ -61,8 +61,9 @@ export default function DonateOrVolunteer({ setPage }) {
     BalooThambi_Regular400,
     Cairo_700Bold,
   });
-
-  const { name, setName, postcode, setPostcode } = useContext(LoginContext);
+  const [name, setName] = useState("");
+  const [postcode, setPostcode] = useState("");
+  const dispatch = useDispatch();
 
   return (
     <ImageBackground
@@ -96,7 +97,10 @@ export default function DonateOrVolunteer({ setPage }) {
       </InputContainer>
       <ButtonContainer>
         <PressableButton
-          onPress={() => setPage("SelectFoodbank")}
+          onPress={() => {
+            dispatch({ type: "login/update", name: name, postcode: postcode });
+            setPage("SelectFoodbank");
+          }}
           text={"Locate"}
           colour={"#f66a6b"}
         />

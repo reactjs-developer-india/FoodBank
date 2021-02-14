@@ -4,7 +4,6 @@ import { Cairo_700Bold } from "@expo-google-fonts/cairo";
 import styled from "styled-components/native";
 import React, { useContext } from "react";
 import { StyleSheet, Text, ImageBackground } from "react-native";
-import { LoginContext } from "../components/state";
 
 const Button = styled.TouchableOpacity`
   display: flex;

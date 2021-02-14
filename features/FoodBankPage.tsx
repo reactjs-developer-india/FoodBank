@@ -1,7 +1,13 @@
 import React, { useState, useContext } from "react";
 import { Button, ScrollView, View } from "react-native";
 import KeyboardArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
-import { IconButton, Avatar, SvgIcon, Paper } from "@material-ui/core";
+import {
+  IconButton,
+  Avatar,
+  SvgIcon,
+  Paper,
+  CircularProgress,
+} from "@material-ui/core";
 import CreateIcon from "@material-ui/icons/Create";
 import { StyleSheet, Text } from "react-native";
 import {
@@ -10,9 +16,9 @@ import {
   Cabin_500Medium,
 } from "@expo-google-fonts/cabin";
 import { useFonts } from "@use-expo/font";
-import { useQuery } from "react-query";
-import { APIURL } from "../components/APIHandler";
-import { LoginContext } from "../components/state.js";
+import useSelector from "../common/hooks/useSelector";
+import useDispatch from "../common/hooks/useDispatch";
+import { doGetFoodbanks } from "../state";
 
 export default function FoodBankList({ setPage }) {
   let [fontsLoaded] = useFonts({
@@ -21,14 +27,13 @@ export default function FoodBankList({ setPage }) {
     Cabin_400Regular,
   });
 
-  const [foodBanks, setFoodBanks] = useState(null);
-  const { name, setName, postcode, setPostcode } = useContext(LoginContext);
+  const { pending, foodbanks } = useSelector((state) => state.foodbanks);
+  const { postcode } = useSelector((state) => state.login);
+  const dispatch = useDispatch();
 
-  const { isLoading, error, data } = useQuery("data", () =>
-    fetch(APIURL + "findfoodbanks?postcode=" + postcode).then((res) =>
-      res.json()
-    )
-  );
+  React.useEffect(() => {
+    dispatch(doGetFoodbanks(postcode));
+  }, [postcode]);
 
   return (
     <View style={styles.parent}>
@@ -61,7 +66,8 @@ export default function FoodBankList({ setPage }) {
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
       >
-        {data && data.map((e) => <FoodBankCard {...e} />)}
+        {foodbanks && foodbanks.map((e) => <FoodBankCard {...e} />)}
+        {pending && <CircularProgress />}
       </ScrollView>
     </View>
   );
