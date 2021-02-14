@@ -34,6 +34,7 @@ import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 import useDispatch from "../common/hooks/useDispatch";
 import { doGetAllDonations } from "../state";
+import { api } from "../store";
 import useSelector from "../common/hooks/useSelector";
 import { format, parse } from "date-fns";
 
@@ -61,6 +62,26 @@ export default function VolunteerMap({ setPage }) {
   React.useEffect(() => {
     dispatch(doGetAllDonations());
   }, []);
+
+  const acceptDonation = () => {
+    try {
+      api.get(
+        "changestatus?donationid=" + selected.donationid + "&status=InProgress"
+      );
+    } catch {
+      return;
+    }
+  };
+
+  const completeDonation = () => {
+    try {
+      api.get(
+        "changestatus?donationid=" + selected.donationid + "&status=Completed"
+      );
+    } catch {
+      return;
+    }
+  };
 
   return (
     <View style={{ display: "flex" }}>
@@ -145,6 +166,7 @@ export default function VolunteerMap({ setPage }) {
                   <Button
                     variant="outlined"
                     style={{ color: "orange", borderColor: "orange", flex: 1 }}
+                    onClick={acceptDonation}
                   >
                     Accept
                   </Button>
@@ -156,6 +178,7 @@ export default function VolunteerMap({ setPage }) {
                       flex: 1,
                       marginLeft: 10,
                     }}
+                    onClick={completeDonation}
                   >
                     Complete
                   </Button>
