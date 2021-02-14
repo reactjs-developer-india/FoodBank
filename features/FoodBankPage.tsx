@@ -27,13 +27,15 @@ export default function FoodBankList({ setPage }) {
     Cabin_400Regular,
   });
 
-  const { pending, foodbanks } = useSelector((state) => state.foodbanks);
+  const { pending, error, foodbanks } = useSelector((state) => state.foodbanks);
   const { postcode } = useSelector((state) => state.login);
   const dispatch = useDispatch();
 
   React.useEffect(() => {
     dispatch(doGetFoodbanks(postcode));
   }, [postcode]);
+
+  let uPostcode = postcode.toUpperCase();
 
   return (
     <View style={styles.parent}>
@@ -46,7 +48,10 @@ export default function FoodBankList({ setPage }) {
         </IconButton>
         <View style={styles.textHolder}>
           <Text style={styles.nearText}>Foodbanks near</Text>
-          <Text style={styles.cityText}>Southampton, UK</Text>
+          <Text style={styles.cityText}>
+            {uPostcode.substring(0, uPostcode.length - 3)}{" "}
+            {uPostcode.substring(uPostcode.length - 3)}
+          </Text>
         </View>
         <IconButton
           style={{ marginRight: "0.5rem", backgroundColor: "#F7F4F3" }}
@@ -66,8 +71,19 @@ export default function FoodBankList({ setPage }) {
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
       >
-        {foodbanks && foodbanks.map((e) => <FoodBankCard {...e} />)}
-        {pending && <CircularProgress />}
+        {foodbanks &&
+          !pending &&
+          foodbanks.map((e) => (
+            <FoodBankCard
+              onClick={() => {
+                dispatch({ type: "donate/select", foodbank: e });
+                setPage("ConfirmDonation");
+              }}
+              {...e}
+            />
+          ))}
+        {pending && <CircularProgress style={{ alignSelf: "center" }} />}
+        {error && <Text>Backend is down</Text>}
       </ScrollView>
     </View>
   );
