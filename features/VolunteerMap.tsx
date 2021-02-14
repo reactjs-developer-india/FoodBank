@@ -68,7 +68,9 @@ export default function VolunteerMap({ setPage }) {
       api.get(
         "changestatus?donationid=" + selected.donationid + "&status=InProgress"
       );
-      dispatch(doGetAllDonations());
+      setTimeout(() => {
+        dispatch(doGetAllDonations());
+      }, 500);
     } catch {
       return;
     }
@@ -79,7 +81,9 @@ export default function VolunteerMap({ setPage }) {
       api.get(
         "changestatus?donationid=" + selected.donationid + "&status=Completed"
       );
-      dispatch(doGetAllDonations());
+      setTimeout(() => {
+        dispatch(doGetAllDonations());
+      }, 500);
     } catch {
       return;
     }
