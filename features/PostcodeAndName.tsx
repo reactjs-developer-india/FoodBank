@@ -51,8 +51,13 @@ const InputContainer = styled.View`
   margin-bottom: 1em;
 `;
 
-const PressableButton = ({ onPress, colour, text }) => (
-  <Button onPress={onPress} styles={styles.buttonElevation} colour={colour}>
+const PressableButton = ({ disabled, onPress, colour, text }) => (
+  <Button
+    disabled={disabled}
+    onPress={onPress}
+    styles={styles.buttonElevation}
+    colour={colour}
+  >
     <ButtonText style={styles.buttonText}>{text}</ButtonText>
   </Button>
 );
@@ -109,6 +114,7 @@ export default function DonateOrVolunteer({ setPage }) {
       </InputContainer>
       <ButtonContainer>
         <PressableButton
+          disabled={!name || !postcode}
           onPress={() => {
             dispatch({ type: "login/update", name: name, postcode: postcode });
             setPage("SelectFoodbank");

@@ -114,6 +114,8 @@ export default function PreviousDonations({ setPage }) {
 }
 
 function FoodBankCard({ info: { image, dateTime, name }, status }) {
+  let difference = differenceInDays(Date.now(), new Date(dateTime));
+
   return (
     <View
       style={{
@@ -164,7 +166,9 @@ function FoodBankCard({ info: { image, dateTime, name }, status }) {
             alignSelf: "flex-start",
           }}
         >
-          {differenceInDays(Date.now(), new Date(dateTime))} days ago
+          {difference < 0
+            ? "Upcoming in " + Math.abs(difference) + " days"
+            : difference + " days ago"}
         </Text>
         <Text
           style={{
@@ -173,14 +177,19 @@ function FoodBankCard({ info: { image, dateTime, name }, status }) {
             paddingHorizontal: 10,
             paddingVertical: 5,
             borderRadius: 20,
-            backgroundColor: "#80CE76",
+            backgroundColor:
+              status === "Pending"
+                ? "#F66A6B"
+                : status === "InProgress"
+                ? "#F6C06A"
+                : "#80CE76",
             opacity: 0.8,
             marginLeft: "auto",
             alignSelf: "flex-end",
             marginTop: "1rem",
           }}
         >
-          {status}
+          {status === "InProgress" ? "In Progress" : status}
         </Text>
       </View>
     </View>
